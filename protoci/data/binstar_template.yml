@@ -1,0 +1,23 @@
+after_failure:
+- echo "After failure message!"
+after_script:
+- echo "ProtoCI build was a:$BINSTAR_BUILD_RESULT" | tee artifact1.txt
+after_success:
+- echo "ProtoCI BUILD SUCCESS"
+engine:
+- python
+script:
+ - conda install -c conda-team protoci
+ - echo BUILD_ARGS =  {{BUILD_ARGS}}
+ - protoci-sequential-build {{BUILD_ARGS}}
+install_channels:
+- defaults
+- python
+package: {{PACKAGE}}
+platform:
+{{PLATFORMS}}
+user: {{USER}}
+quiet: True
+
+# no prints to stderr or out in X seconds kills build:
+iotimeout: 120
